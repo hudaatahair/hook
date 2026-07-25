@@ -518,10 +518,10 @@
     </nav>
 
     <!-- ========================================== -->
-    <!-- IMAGE MODAL (FULL SCREEN ON MOBILE) -->
+    <!-- EXERCISE GUIDE MODAL (FAIL-PROOF VISUALS) -->
     <!-- ========================================== -->
     <div id="image-modal" class="hidden fixed inset-0 z-[110] flex justify-center items-center p-4 bg-black/80 backdrop-blur-md transition-opacity duration-300 opacity-0">
-        <div class="w-full max-w-3xl bg-white rounded-2xl overflow-hidden shadow-2xl relative transform scale-95 transition-transform duration-300 flex flex-col" id="image-window">
+        <div class="w-full max-w-2xl bg-white rounded-2xl overflow-hidden shadow-2xl relative transform scale-95 transition-transform duration-300 flex flex-col" id="image-window">
             
             <div class="p-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
                 <h3 id="image-modal-title" class="font-bold text-lg text-gray-800">Exercise Guide</h3>
@@ -530,8 +530,22 @@
                 </button>
             </div>
             
-            <div class="relative w-full bg-white flex justify-center items-center p-4">
-                <img id="modal-image" src="" alt="Exercise Illustration" class="max-h-[70vh] object-contain rounded-lg shadow-sm border border-gray-100">
+            <div class="p-6 overflow-y-auto max-h-[80vh] space-y-4">
+                <!-- Visual Display Area -->
+                <div id="modal-visual-container" class="w-full bg-slate-50 rounded-xl p-4 flex justify-center items-center border border-slate-100 min-h-[220px]">
+                    <img id="modal-image" src="" alt="Exercise Illustration" class="max-h-[240px] object-contain rounded-lg shadow-sm" onerror="showFallbackSVG()">
+                    <div id="modal-svg-fallback" class="hidden w-full flex justify-center items-center"></div>
+                </div>
+
+                <!-- Step-by-Step Instructions -->
+                <div class="bg-blue-50/60 border border-blue-100 rounded-xl p-4 space-y-2">
+                    <h4 class="font-bold text-blue-900 text-sm flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-blue-600 text-base">format_list_numbered</span> How to Perform:
+                    </h4>
+                    <ul id="modal-instructions" class="text-sm text-blue-950 space-y-1.5 list-disc list-inside leading-relaxed">
+                        <li>Follow your therapist's instructions carefully.</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -626,19 +640,101 @@
             }
         }
 
-        // ---- Image Modal Logic ----
+        window.openImageModal = openImageModal;
+        window.closeImageModal = closeImageModal;
+        window.speakText = speakText;
+        window.showFallbackSVG = showFallbackSVG;
+
+        // ---- Exercise Visual Data & SVG Guides ----
+        const exerciseGuides = {
+            'Finger Grip Practice': {
+                image: 'assets/images/finger_grip.jpg',
+                instructions: [
+                    "Hold a soft foam ball or stress ball in the palm of your affected hand.",
+                    "Squeeze tightly for 5 seconds, focusing on bringing your fingers together.",
+                    "Slowly release your grip and spread your fingers wide.",
+                    "Repeat 10 times for finger strength and dexterity."
+                ],
+                svg: `<svg viewBox="0 0 300 180" class="w-64 h-36"><rect width="300" height="180" rx="16" fill="#EFF6FF"/><path d="M110 130 C110 80 140 60 160 80 C180 60 200 80 190 130 Z" fill="#93C5FD"/><circle cx="150" cy="95" r="30" fill="#2563EB" opacity="0.8"/><path d="M125 95 L140 95 M175 95 L160 95" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/><text x="150" y="160" text-anchor="middle" font-size="14" font-weight="bold" fill="#1E40AF">Finger Grip Practice</text></svg>`
+            },
+            'Shoulder Stretch': {
+                image: 'assets/images/shoulder_stretch.jpg',
+                instructions: [
+                    "Sit upright in a supportive chair with your back straight.",
+                    "Gently place your strong hand under the elbow of your affected arm.",
+                    "Lift your arm across your chest towards the opposite shoulder.",
+                    "Hold the stretch gently for 10 seconds. Repeat 5 times."
+                ],
+                svg: `<svg viewBox="0 0 300 180" class="w-64 h-36"><rect width="300" height="180" rx="16" fill="#F3E8FF"/><circle cx="150" cy="45" r="20" fill="#A855F7"/><path d="M120 120 L150 70 L180 120" stroke="#7E22CE" stroke-width="12" stroke-linecap="round" fill="none"/><path d="M130 90 L180 85" stroke="#A855F7" stroke-width="8" stroke-linecap="round"/><text x="150" y="160" text-anchor="middle" font-size="14" font-weight="bold" fill="#6B21A8">Shoulder Stretch</text></svg>`
+            },
+            'Wrist Rotation': {
+                image: 'assets/images/wrist_rotation.jpg',
+                instructions: [
+                    "Rest your forearm comfortably on a table or on your lap.",
+                    "Keep your arm steady and slowly rotate your wrist in a smooth circle.",
+                    "Complete 10 rotations clockwise, then 10 rotations counter-clockwise.",
+                    "Focus on gentle, fluid movement without straining."
+                ],
+                svg: `<svg viewBox="0 0 300 180" class="w-64 h-36"><rect width="300" height="180" rx="16" fill="#FAF5FF"/><path d="M80 110 L180 110" stroke="#C084FC" stroke-width="14" stroke-linecap="round"/><circle cx="200" cy="110" r="22" fill="#9333EA"/><path d="M185 80 A 30 30 0 1 1 215 135" stroke="#7E22CE" stroke-width="4" stroke-dasharray="4,4" fill="none"/><text x="150" y="160" text-anchor="middle" font-size="14" font-weight="bold" fill="#581C87">Wrist Rotation</text></svg>`
+            },
+            'Seated Ankle Pumps': {
+                image: 'assets/images/ankle_pumps.jpg',
+                instructions: [
+                    "Sit comfortably in a chair with your feet flat on the floor.",
+                    "Keep your heels on the ground and lift your toes as high as you can.",
+                    "Hold for 2 seconds, then lower toes and raise your heels.",
+                    "Repeat 15 times to promote circulation in your lower legs."
+                ],
+                svg: `<svg viewBox="0 0 300 180" class="w-64 h-36"><rect width="300" height="180" rx="16" fill="#ECFDF5"/><path d="M120 50 L120 120 L190 120" stroke="#10B981" stroke-width="14" stroke-linecap="round" fill="none"/><path d="M190 120 L210 95" stroke="#059669" stroke-width="12" stroke-linecap="round"/><text x="150" y="160" text-anchor="middle" font-size="14" font-weight="bold" fill="#065F46">Seated Ankle Pumps</text></svg>`
+            },
+            'Knee Extension': {
+                image: 'assets/images/knee_extension.jpg',
+                instructions: [
+                    "Sit tall in a firm chair with back supported.",
+                    "Slowly straighten one leg out in front of you until your knee is straight.",
+                    "Hold your leg straight for 3 seconds, feeling your thigh muscle work.",
+                    "Slowly lower back down. Repeat 10 times for each leg."
+                ],
+                svg: `<svg viewBox="0 0 300 180" class="w-64 h-36"><rect width="300" height="180" rx="16" fill="#FEF3C7"/><path d="M100 60 L140 100 L210 100" stroke="#F59E0B" stroke-width="14" stroke-linecap="round" fill="none"/><text x="150" y="160" text-anchor="middle" font-size="14" font-weight="bold" fill="#92400E">Knee Extension</text></svg>`
+            }
+        };
+
+        let currentActiveGuide = null;
+
         const imageModal = document.getElementById('image-modal');
         const imageWindow = document.getElementById('image-window');
         const modalImage = document.getElementById('modal-image');
         const modalTitle = document.getElementById('image-modal-title');
+        const modalInstructions = document.getElementById('modal-instructions');
+        const modalSvgFallback = document.getElementById('modal-svg-fallback');
 
-        function openImageModal(url, title) {
-            modalImage.src = url;
-            if(title) modalTitle.innerText = title;
+        function openImageModal(imgUrl, title) {
+            modalTitle.innerText = title || "Exercise Guide";
+            const guide = exerciseGuides[title] || { instructions: ["Follow therapist guidance."], svg: "" };
+            currentActiveGuide = guide;
+
+            // Set instructions
+            modalInstructions.innerHTML = guide.instructions.map(step => `<li>${step}</li>`).join('');
+
+            // Reset image and fallback
+            modalSvgFallback.classList.add('hidden');
+            modalImage.classList.remove('hidden');
+            modalImage.src = imgUrl || guide.image;
+
             imageModal.classList.remove('hidden');
-            void imageModal.offsetWidth; // trigger reflow
+            void imageModal.offsetWidth;
             imageModal.classList.replace('opacity-0', 'opacity-100');
             imageWindow.classList.replace('scale-95', 'scale-100');
+        }
+
+        function showFallbackSVG() {
+            modalImage.classList.add('hidden');
+            modalSvgFallback.classList.remove('hidden');
+            if(currentActiveGuide && currentActiveGuide.svg) {
+                modalSvgFallback.innerHTML = currentActiveGuide.svg;
+            } else {
+                modalSvgFallback.innerHTML = `<div class="p-4 text-center text-slate-500 font-medium">Exercise Guide Active</div>`;
+            }
         }
 
         function closeImageModal() {
@@ -824,45 +920,60 @@
         }
 
         function getBotResponse(input) {
-            const lower = input.toLowerCase();
+            const text = input.toLowerCase().trim();
 
-            // 1. Pain or discomfort
-            if (lower.includes('pain') || lower.includes('hurt') || lower.includes('sore') || lower.includes('ache')) {
-                return "I'm so sorry you're feeling discomfort right now 💙. Recovery takes patience, and listening to your body is essential. Please pause any strenuous activity immediately. While I'm here to companion and encourage your daily routine, I am an AI assistant and not a medical doctor. If the pain is sharp or unusual, please consult your physician or physical therapist immediately.";
+            // 1. Shivering / Cold / Chills (from user's screenshot)
+            if (text.includes('shiver') || text.includes('cold') || text.includes('chill') || text.includes('freez')) {
+                return "Please wrap yourself in a warm blanket and sip warm water. If shivering is accompanied by fever, sudden weakness, or chest pain, please seek medical help immediately. Stay warm! 💙";
             }
 
-            // 2. Hand, Arm, Grip or Wrist
-            if (lower.includes('arm') || lower.includes('hand') || lower.includes('finger') || lower.includes('grip') || lower.includes('wrist')) {
-                return "Every small movement is a milestone in your journey! 🌟 For upper body and hand recovery, routines like **Finger Grip Practice** and **Wrist Rotation** are wonderful to try. You can tap the image guide next to them in your Exercises tab! Remember, I'm here to assist and encourage you daily, but always double-check new routines with your doctor.";
+            // 2. Weather query (from user's screenshot)
+            if (text.includes('weather') || text.includes('temperature') || text.includes('rain') || text.includes('sun')) {
+                return "I don't have live weather tracking, but please make sure to stay comfortable and dress appropriately for today's temperature! 🌤️";
             }
 
-            // 3. Leg, Knee, Foot, Walking, Lower body
-            if (lower.includes('leg') || lower.includes('knee') || lower.includes('foot') || lower.includes('ankle') || lower.includes('walk')) {
-                return "Building lower body strength and circulation is fantastic, and you should be proud of your efforts! 🦵✨ I recommend reviewing **Seated Ankle Pumps** or **Knee Extension** in your Exercises tab. You can open their step-by-step image guides! Just a gentle note that I'm your supportive AI assistant, not a doctor—take it slow and stay safe!";
+            // 3. Pain or discomfort
+            if (text.includes('pain') || text.includes('hurt') || text.includes('sore') || text.includes('ache')) {
+                return "Please stop your current activity and rest immediately. If the pain is sharp or severe, contact your doctor or therapist right away. Take care! 💙";
             }
 
-            // 4. Shoulder or Upper Body Stretch
-            if (lower.includes('shoulder') || lower.includes('stretch') || lower.includes('back')) {
-                return "Stretching is so beneficial for reducing stiffness and keeping your posture relaxed! 🌿 Try looking at the **Shoulder Stretch** guide in your Exercises tab. Remember to breathe deeply and never force a stretch. I'm always here to motivate you, though please follow your physical therapist's specific instructions.";
+            // 4. Hand, Arm, Grip, Finger, Wrist
+            if (text.includes('arm') || text.includes('hand') || text.includes('finger') || text.includes('grip') || text.includes('wrist')) {
+                return "For hand or arm mobility, try **Finger Grip Practice** or **Wrist Rotation** in your Exercises tab. Take it slow and steady! 🌟";
             }
 
-            // 5. Fatigue or feeling tired
-            if (lower.includes('tired') || lower.includes('fatigue') || lower.includes('weak') || lower.includes('exhausted')) {
-                return "Please don't be hard on yourself! Post-stroke fatigue is completely natural and normal 💙. Resting is an active part of your healing process. Take a break, stay hydrated, and celebrate how far you've come today. As your assistant, I'm cheering for you! If fatigue feels severe, make sure to inform your doctor.";
+            // 5. Leg, Knee, Foot, Ankle, Walk
+            if (text.includes('leg') || text.includes('knee') || text.includes('foot') || text.includes('ankle') || text.includes('walk')) {
+                return "For leg mobility and blood flow, check out **Seated Ankle Pumps** or **Knee Extension** in your Exercises tab. 🦵";
             }
 
-            // 6. Medication query
-            if (lower.includes('medication') || lower.includes('pill') || lower.includes('medicine') || lower.includes('aspirin')) {
-                return "Keeping track of your schedule is such a great habit! 💊 You can mark your Aspirin as taken right on your Dashboard or Meds tab. As a friendly reminder, I am an AI assistant and cannot prescribe or recommend medications—always consult your physician regarding your prescription needs!";
+            // 6. Shoulder, Stretch
+            if (text.includes('shoulder') || text.includes('stretch')) {
+                return "You can view the **Shoulder Stretch** guide in your Exercises tab. Stretch gently without forcing! 🌿";
             }
 
-            // 7. General Greetings
-            if (lower.includes('hello') || lower.includes('hi') || lower.includes('hey') || lower.includes('help')) {
-                return "Hello there! 😊 It's wonderful to connect with you. I'm your Stroke Recovery Companion—here to encourage you, keep your spirits high, and suggest daily exercises. While I am an AI assistant and not a medical doctor, I am here to assist your routine every day! How are you feeling today?";
+            // 7. Tired, Fatigue, Weak
+            if (text.includes('tired') || text.includes('fatigue') || text.includes('weak') || text.includes('sleep')) {
+                return "Post-stroke fatigue is very common. Please take a rest break and stay hydrated—your body needs rest to recover. 💙";
             }
 
-            // 8. General Encouraging Fallback
-            return "Thank you for sharing that with me! 💙 Every step you take, no matter how small, is progress toward your recovery. Feel free to check out your 5 daily routines in the Exercises tab (like Wrist Rotation or Shoulder Stretches). Please remember I'm your supportive assistant, not a doctor, so always listen to your body and healthcare provider. How else can I support you today?";
+            // 8. Medication
+            if (text.includes('medication') || text.includes('pill') || text.includes('medicine') || text.includes('aspirin')) {
+                return "You can log your scheduled medications directly on your Dashboard or Meds tab. Always follow your doctor's exact prescription! 💊";
+            }
+
+            // 9. Greetings
+            if (text.includes('hello') || text.includes('hi') || text.includes('hey')) {
+                return "Hello! How can I assist with your recovery routine today? 😊";
+            }
+
+            // 10. Gratitude
+            if (text.includes('thank') || text.includes('thanks')) {
+                return "You're very welcome! Stay positive and keep up the great work! 💙";
+            }
+
+            // Direct concise fallback (NO long speeches!)
+            return "I'm here to assist your recovery! Ask me about your exercises, medication reminders, or let me know how you're feeling today.";
         }
 
         function sendChatMessage() {
