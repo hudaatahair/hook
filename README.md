@@ -1,48 +1,179 @@
-# Stroke Companion AI 🧠💙
+# 🧠 Stroke Companion AI — Healthcare & Rehabilitation Platform
 
-![Stroke Companion UI Banner](https://via.placeholder.com/1200x400.png?text=Stroke+Companion+AI+Dashboard)
-
-## 📖 Overview
-**Stroke Companion AI** is a specialized, web-based healthcare application tailored to support stroke survivors through their rehabilitation journey at home. The application provides daily exercise routines, medication reminders, an empathetic AI Chatbot, and an AAC Text-to-Speech board specifically designed for stroke survivors with language or speech difficulties (aphasia).
-
-## ✨ Features
-- **Dynamic Dashboard:** Track your recovery streak, daily progress ring, and medication adherence in real time.
-- **Aphasia Speech Assistant (AAC):** A dedicated visual communication board with 8 essential daily needs cards (Water, Pain, Rest, Medicine, Bathroom, Caregiver, Yes, No). Tapping any card activates Text-to-Speech (`window.speechSynthesis`) to speak out loud for patients with speech impairments.
-- **5 Interactive Guided Exercises:** High-contrast exercise cards featuring custom AI-generated medical illustrations for:
-  - Finger Grip Practice
-  - Shoulder Stretch
-  - Wrist Rotation
-  - Seated Ankle Pumps
-  - Knee Extension
-- **Empathetic AI Companion:** A floating chat assistant that listens to user situations, provides warm encouragement, recommends relevant physical therapy routines, and gently clarifies its supportive role.
-- **Hybrid Data Architecture:** Built with Firebase Web SDK (v9) integration and automatic, robust `localStorage` fallback to guarantee 100% error-free data persistence across browser reloads.
-- **Medical Disclaimers:** Prominently featured disclaimers ensuring the app clearly position itself as a supportive daily assistant rather than a replacement for a medical doctor.
-
-## 🛠️ Tech Stack
-- **Frontend:** HTML5, Vanilla JavaScript (ES Modules), CSS3
-- **Styling:** Tailwind CSS (via CDN), Google Fonts (Public Sans)
-- **Icons & Graphics:** Google Material Symbols, Custom Medical Vector Illustrations
-- **Audio & Accessibility:** Native Web Speech API (`SpeechSynthesis`)
-- **Backend Sync:** Firebase Cloud Firestore SDK v9 with LocalStorage Fallback
-
-## 🚀 Getting Started
-
-This application has been engineered to run completely locally without needing any backend server installations or node modules!
-
-1. **Download or Clone the Repository**.
-2. Open the `stroke care` folder.
-3. Double-click on **`index.html`** to open it instantly in your default web browser.
-
-## 📂 Project Structure
-```text
-stroke care/
-├── index.html       # The complete Single Page Application (UI + Logic + Firebase/TTS)
-├── README.md        # Detailed project documentation
-└── ... (generated assets)
-```
-
-## 🧠 Medical Safety & Disclaimer
-Stroke Companion AI is designed strictly as a supportive tool for physical therapy adherence and daily motivation. It is **not a medical device or a replacement for a physician**. Users are advised to consult their doctor or physical therapist for medical advice, prescriptions, and diagnosis.
+> **A specialized, accessible digital health platform designed to empower stroke survivors through home rehabilitation, speech assistance, medication tracking, and empathetic AI guidance.**
 
 ---
-*Created with care for stroke recovery support.*
+
+## 📍 Live Demo & Deployment
+- **Live Web Application:** [https://stroke-aabc9.web.app](https://stroke-aabc9.web.app) *(or open [`index.html`](file:///c:/Users/HP/Downloads/stroke%20%20care/index.html) locally in any web browser)*
+- **Firebase Project ID:** `stroke-aabc9`
+
+---
+
+## 📌 Project Overview & Problem Statement
+
+### 🎯 What it does:
+**Stroke Companion AI** is a comprehensive, web-based healthcare application tailored specifically for stroke survivors, their family members, and caregivers. It transforms post-stroke recovery at home into an engaging, structured, and safe daily experience through guided physical therapy exercises, medication logging, an Aphasia speech assistance board, and a responsible AI recovery companion.
+
+### 🩺 The Real Problem It Solves:
+Every year, over 12 million people worldwide suffer a stroke. Recovery requires months of continuous rehabilitation at home after hospital discharge. However, patients face critical barriers:
+1. **Aphasia & Communication Barriers:** Up to 40% of stroke survivors experience aphasia (loss of speech or language comprehension), making it difficult to communicate basic needs like pain, thirst, or bathroom assistance.
+2. **Exercise Non-Adherence & Confusion:** Without an in-person physical therapist, patients forget exercise techniques or discontinue physical therapy altogether.
+3. **Secondary Prevention Medication Drop-Off:** Skipping prescribed antiplatelets or blood pressure medications dramatically increases the risk of a recurrent stroke.
+4. **Emotional Isolation & Lack of Daily Support:** Patients lack immediate, encouraging guidance between clinical appointments.
+
+**Stroke Companion AI** directly solves these challenges by combining visual physical therapy guides, instant text-to-speech communication cards, a medication tracker, and a non-prescriptive, supportive AI companion.
+
+---
+
+## ✨ Features List — Everything the App Can Do
+
+### 1. 📊 Interactive Recovery Dashboard
+- **Streak & Motivation Tracker:** Tracks active recovery days and daily achievements.
+- **Dynamic Progress Ring:** Real-time visual progress ring showing daily medication and exercise completion.
+- **Medical Safety Disclaimer Banner:** Prominently featured on top of the dashboard to ensure patients understand the app is a supportive tool and not a doctor replacement.
+
+### 2. 🗣️ Aphasia Visual Speech Assistant (AAC & Text-to-Speech)
+- **8 Visual Communication Cards:** Large, color-coded, high-contrast cards representing core daily needs:
+  - 💧 **Water:** *"I need a glass of water, please."*
+  - ⚠️ **Pain:** *"I am in pain. Please help me."*
+  - 🛌 **Rest:** *"I am tired and want to rest."*
+  - 💊 **Medicine:** *"It is time for my medication."*
+  - 🚽 **Bathroom:** *"I need help going to the bathroom."*
+  - 📞 **Caregiver:** *"Please call my caregiver or family."*
+  - ✅ **Yes:** *"Yes, correct."*
+  - ❌ **No:** *"No, thank you."*
+- **Instant Speech Output:** Integrated with the browser's native Web Speech API (`window.speechSynthesis`) to speak sentences out loud in a clear, measured tone when tapped.
+
+### 3. 🏋️ 5 Guided Physical Therapy Exercises
+- **Full-Color AI Medical Illustrations:** Includes high-resolution visual guides generated by Gemini AI for 5 core rehabilitation routines:
+  1. **Finger Grip Practice:** Hand dexterity & motor control.
+  2. **Shoulder Stretch:** Upper body flex & spasticity reduction.
+  3. **Wrist Rotation:** Joint mobility & range of motion.
+  4. **Seated Ankle Pumps:** Lower limb circulation & DVT prevention.
+  5. **Knee Extension:** Quad muscle strengthening.
+- **Numbered Step-by-Step Instructions:** Every exercise modal features detailed, numbered instructions describing how to perform the movement safely.
+
+### 4. 🤖 Empathetic AI Recovery Assistant
+- **Intent-Aware Responses:** Directly addresses specific user input (e.g., shivering, pain, fatigue, weather, exercise queries) without long pre-canned speeches.
+- **Concise & Responsible Guidance:** Answers in 1-2 polite sentences, suggesting relevant physical therapy routines while maintaining strict medical disclaimers.
+
+### 5. 🔐 Patient & Caregiver Authentication System
+- **Profile Management:** Displays current active patient status and avatar.
+- **Portal Login/Logout:** Allows users to log in with email/password or use 1-Click Demo Login as *David Miller (Patient)* or *Sarah (Caregiver)*.
+
+### 6. ⚙️ Stroke Accessibility & Settings
+- **Text Size Adjustment:** Switch between *Standard Size* and *Large Text Mode* for post-stroke visual impairment.
+- **Custom Patient Profile Name:** Edit and personalize patient details.
+- **Voice Assistance Toggle:** Enable or disable text-to-speech audio outputs.
+
+### 7. ⚡ Hybrid Data Persistence
+- **Firebase Firestore Integration:** Syncs patient progress to Google Firebase Cloud (`stroke-aabc9`).
+- **Offline LocalStorage Fallback:** Automatically falls back to browser `localStorage` to ensure 100% uninterrupted offline functionality with zero console errors.
+
+---
+
+## 🤖 The AI Feature — Instructions & System Prompt
+
+### 💡 What it does:
+The **Recovery Assistant** is a contextual conversational AI embedded in a floating modal. It listens to patient inputs, assesses emotional and physical intent, provides concise advice, recommends appropriate exercises, and enforces safety boundaries.
+
+### 📜 Behavioral Logic & System Prompt Rules:
+```javascript
+// AI System Prompt & Intent Routing Logic:
+
+1. SHIVERING / COLD:
+   - Input: "i am shivering today", "cold", "chills"
+   - Output: "Please wrap yourself in a warm blanket and sip warm water. If shivering is accompanied by fever, sudden weakness, or chest pain, please seek medical help immediately. Stay warm! 💙"
+
+2. PAIN / DISCOMFORT:
+   - Input: "pain", "hurt", "sore", "ache"
+   - Output: "Please stop your current activity and rest immediately. If the pain is sharp or severe, contact your doctor or therapist right away. Take care! 💙"
+
+3. UPPER BODY / HAND MOBILITY:
+   - Input: "arm", "hand", "finger", "grip", "wrist"
+   - Output: "For hand or arm mobility, try Finger Grip Practice or Wrist Rotation in your Exercises tab. Take it slow and steady! 🌟"
+
+4. LOWER BODY MOBILITY:
+   - Input: "leg", "knee", "foot", "ankle", "walk"
+   - Output: "For leg mobility and blood flow, check out Seated Ankle Pumps or Knee Extension in your Exercises tab. 🦵"
+
+5. POST-STROKE FATIGUE:
+   - Input: "tired", "fatigue", "weak", "exhausted"
+   - Output: "Post-stroke fatigue is very common. Please take a rest break and stay hydrated—your body needs rest to recover. 💙"
+
+6. MEDICATION QUERIES:
+   - Input: "medication", "pill", "medicine", "aspirin"
+   - Output: "You can log your scheduled medications directly on your Dashboard or Meds tab. Always follow your doctor's exact prescription! 💊"
+
+7. RESPONSE RULES:
+   - Length: Strictly 1 to 2 sentences max.
+   - Tone: Empathetic, polite, direct, non-preachy.
+   - Safety: Never prescribe medicine; remind patient of physician guidance.
+```
+
+---
+
+## 🛠️ Tools, Services, and AI Models Used
+
+| Category | Tool / Technology Used | Purpose |
+| :--- | :--- | :--- |
+| **AI Models** | **Google Gemini 3.1 Pro** | Conversational prompt engineering, responsible AI safety logic. |
+| **AI Image Generation** | **Google Imagen 3 (via Antigravity)** | Generating medical illustrations for stroke rehabilitation exercises. |
+| **Frontend Core** | **HTML5 & Vanilla JavaScript (ES Modules)** | Main application structure and client-side logic. |
+| **Styling & UI** | **Tailwind CSS (v3 via CDN)** | Glassmorphism, modern color palettes, and responsive layouts. |
+| **Accessibility Audio** | **Web Speech API (`SpeechSynthesis`)** | Text-to-speech audio for Aphasia communication cards. |
+| **Icons & Typography** | **Google Material Symbols & Public Sans** | High-contrast icons and clean, accessible typography. |
+| **Backend & Cloud** | **Google Firebase (Firestore & Hosting)** | Cloud data sync and live application hosting. |
+
+---
+
+## 🖼️ Screenshots of the App in Action
+
+### 1. 🏋️ Exercise Guide & Gemini AI Medical Illustration
+![Shoulder Stretch Exercise Guide](assets/images/shoulder_stretch.jpg)
+*Figure 1: Full-color Gemini AI medical illustration showing the Shoulder Stretch routine with step-by-step instructions.*
+
+### 2. ✋ Hand & Finger Grip Dexterity Practice
+![Finger Grip Practice Guide](assets/images/finger_grip.jpg)
+*Figure 2: Finger Grip Practice exercise guide for fine motor skill recovery.*
+
+### 3. 🔄 Wrist Rotation Joint Mobility Guide
+![Wrist Rotation Exercise Guide](assets/images/wrist_rotation.jpg)
+*Figure 3: Controlled 360° Wrist Rotation exercise illustration for joint range of motion.*
+
+### 4. 🦵 Seated Ankle Pumps & Circulation Guide
+![Seated Ankle Pumps Guide](assets/images/ankle_pumps.jpg)
+*Figure 4: Seated Ankle Pumps guide for lower leg circulation and DVT prevention.*
+
+### 5. 🦵 Seated Knee Extension Strengthening Guide
+![Knee Extension Guide](assets/images/knee_extension.jpg)
+*Figure 5: Seated Knee Extension guide for quad strengthening.*
+
+---
+
+## 🚀 How to Run the Project
+
+### Option A: Run Locally (Simplest)
+1. **Download / Clone** this repository to your computer.
+2. Open the project folder (`stroke care`).
+3. Double-click **`index.html`** to run the app instantly in your default web browser (Chrome, Edge, Firefox, Safari).
+
+### Option B: Serve via Local Web Server
+If you prefer running a local server using Node.js:
+```bash
+# Navigate to the project directory
+cd "stroke care"
+
+# Serve the static files using npx serve
+npx serve .
+```
+Then open `http://localhost:3000` in your browser.
+
+---
+
+## 🛡️ Medical Disclaimer
+**Stroke Companion AI** is an educational and supportive software application designed solely to assist stroke survivors with daily routine tracking and physical therapy exercise reminders. **It is not a medical device and does not provide medical diagnosis, prescription, or treatment.** Users should always consult a qualified physician or healthcare provider for medical advice.
+
+---
+*Developed with care for post-stroke recovery support.*
