@@ -1,12 +1,9 @@
 # 🧠 Stroke Companion AI — Healthcare & Rehabilitation Platform
 
 > **A specialized, accessible digital health platform designed to empower stroke survivors through home rehabilitation, speech assistance, medication tracking, and empathetic AI guidance.**
-
----
-
-## 📍 Live Demo & Deployment
-- **Live Web Application:** [https://stroke-aabc9.web.app](https://stroke-aabc9.web.app) *(or open [`index.html`](file:///c:/Users/HP/Downloads/stroke%20%20care/index.html) locally in any web browser)*
-- **Firebase Project ID:** `stroke-aabc9`
+>
+> **LIVE App**
+> **stroke-companion.vercel.app**
 
 ---
 
