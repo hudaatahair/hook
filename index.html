@@ -11,6 +11,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <!-- FontAwesome for fallback/extra icons if needed -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Embedded Exercise Base64 Images -->
+    <script src="assets/images_base64.js"></script>
     
     <script id="tailwind-config">
         tailwind.config = {
@@ -112,14 +114,22 @@
     <!-- Top AppBar -->
     <header class="glass-panel sticky top-0 z-50 px-6 py-4 flex justify-between items-center border-b border-outline-variant/50">
         <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/20 shadow-sm">
-                <img class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=David+S&background=dbeafe&color=0056b3" alt="Profile"/>
+            <div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/20 shadow-sm bg-blue-100 flex items-center justify-center">
+                <img id="user-avatar-img" class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=David+Miller&background=dbeafe&color=0056b3" alt="Profile"/>
             </div>
-            <h1 class="text-xl font-bold text-primary tracking-tight">Stroke Companion</h1>
+            <div>
+                <h1 class="text-xl font-bold text-primary tracking-tight">Stroke Companion</h1>
+                <p id="header-user-status" class="text-xs font-semibold text-slate-500">Patient: <span id="header-patient-name" class="text-primary font-bold">David Miller</span></p>
+            </div>
         </div>
-        <button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors">
-            <span class="material-symbols-outlined text-on-surface-variant">settings</span>
-        </button>
+        <div class="flex items-center gap-2">
+            <button onclick="openSettingsModal()" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors" title="Settings">
+                <span class="material-symbols-outlined text-on-surface-variant">settings</span>
+            </button>
+            <button id="auth-btn" onclick="toggleAuth()" class="px-3 py-1.5 text-xs font-bold bg-primary/10 text-primary hover:bg-primary/20 rounded-full transition-colors flex items-center gap-1">
+                <span id="auth-icon" class="material-symbols-outlined text-sm">logout</span> <span id="auth-btn-text">Logout</span>
+            </button>
+        </div>
     </header>
 
     <main class="relative z-10 px-6 pt-6 max-w-3xl mx-auto w-full">
@@ -551,6 +561,87 @@
     </div>
 
     <!-- ========================================== -->
+    <!-- SETTINGS MODAL -->
+    <!-- ========================================== -->
+    <div id="settings-modal" class="hidden fixed inset-0 z-[120] flex justify-center items-center p-4 bg-black/50 backdrop-blur-sm transition-opacity duration-300 opacity-0">
+        <div class="w-full max-w-md bg-white rounded-2xl overflow-hidden shadow-2xl relative transform scale-95 transition-transform duration-300 flex flex-col" id="settings-window">
+            <div class="p-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
+                <h3 class="font-bold text-lg text-gray-800 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">settings</span> App Settings
+                </h3>
+                <button onclick="closeSettingsModal()" class="text-gray-500 hover:text-red-500 bg-gray-200 rounded-full p-2 transition-colors">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="p-6 space-y-5">
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">Patient Profile Name</label>
+                    <input id="setting-patient-name" type="text" value="David Miller" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-primary focus:border-primary text-sm font-medium">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">Accessibility Font Size</label>
+                    <select id="setting-font-size" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-primary focus:border-primary text-sm font-medium">
+                        <option value="normal">Standard Size</option>
+                        <option value="large">Large Text (Stroke Accessibility)</option>
+                    </select>
+                </div>
+                <div class="flex items-center justify-between py-2 border-t border-slate-100">
+                    <div>
+                        <p class="font-bold text-sm text-slate-800">Voice Speech Assistance</p>
+                        <p class="text-xs text-slate-500">Enable text-to-speech engine</p>
+                    </div>
+                    <input id="setting-voice-toggle" type="checkbox" checked class="w-5 h-5 text-primary rounded border-slate-300 focus:ring-primary">
+                </div>
+                <button onclick="saveSettings()" class="w-full bg-primary hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-all shadow-md active:scale-95">
+                    Save Settings
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- LOGIN / AUTHENTICATION MODAL -->
+    <!-- ========================================== -->
+    <div id="login-modal" class="hidden fixed inset-0 z-[120] flex justify-center items-center p-4 bg-black/50 backdrop-blur-sm transition-opacity duration-300 opacity-0">
+        <div class="w-full max-w-md bg-white rounded-2xl overflow-hidden shadow-2xl relative transform scale-95 transition-transform duration-300 flex flex-col" id="login-window">
+            <div class="p-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
+                <h3 class="font-bold text-lg text-gray-800 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">account_circle</span> Patient Portal Login
+                </h3>
+                <button onclick="closeLoginModal()" class="text-gray-500 hover:text-red-500 bg-gray-200 rounded-full p-2 transition-colors">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="p-6 space-y-5">
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">Email / Patient ID</label>
+                    <input id="login-email" type="email" value="david@strokecare.ai" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-primary focus:border-primary text-sm font-medium">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">Password</label>
+                    <input id="login-password" type="password" value="password123" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-primary focus:border-primary text-sm font-medium">
+                </div>
+                <button onclick="performLogin()" class="w-full bg-primary hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-all shadow-md active:scale-95 flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-base">login</span> Log In to Portal
+                </button>
+                <div class="relative flex py-1 items-center">
+                    <div class="flex-grow border-t border-slate-200"></div>
+                    <span class="flex-shrink mx-4 text-xs text-slate-400 font-semibold">Or Quick Demo Login</span>
+                    <div class="flex-grow border-t border-slate-200"></div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="quickDemoLogin('David Miller')" class="py-2.5 px-3 bg-blue-50 text-blue-700 hover:bg-blue-100 font-bold rounded-xl text-xs transition-colors border border-blue-200">
+                        Patient Login
+                    </button>
+                    <button onclick="quickDemoLogin('Sarah (Caregiver)')" class="py-2.5 px-3 bg-purple-50 text-purple-700 hover:bg-purple-100 font-bold rounded-xl text-xs transition-colors border border-purple-200">
+                        Caregiver Login
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
     <!-- AI CHAT MODAL (FULL SCREEN ON MOBILE) -->
     <!-- ========================================== -->
     <div id="chat-modal" class="hidden fixed inset-0 z-[100] flex justify-end md:items-end items-stretch md:p-6 bg-black/30 backdrop-blur-sm transition-opacity duration-300 opacity-0">
@@ -644,6 +735,14 @@
         window.closeImageModal = closeImageModal;
         window.speakText = speakText;
         window.showFallbackSVG = showFallbackSVG;
+        window.openSettingsModal = openSettingsModal;
+        window.closeSettingsModal = closeSettingsModal;
+        window.saveSettings = saveSettings;
+        window.openLoginModal = openLoginModal;
+        window.closeLoginModal = closeLoginModal;
+        window.performLogin = performLogin;
+        window.quickDemoLogin = quickDemoLogin;
+        window.toggleAuth = toggleAuth;
 
         // ---- Exercise Visual Data & SVG Guides ----
         const exerciseGuides = {
@@ -713,18 +812,134 @@
             const guide = exerciseGuides[title] || { instructions: ["Follow therapist guidance."], svg: "" };
             currentActiveGuide = guide;
 
-            // Set instructions
             modalInstructions.innerHTML = guide.instructions.map(step => `<li>${step}</li>`).join('');
 
-            // Reset image and fallback
             modalSvgFallback.classList.add('hidden');
             modalImage.classList.remove('hidden');
-            modalImage.src = imgUrl || guide.image;
+
+            // Use embedded base64 image if available, else fall back to file path
+            const base64Img = window.EMBEDDED_EXERCISE_IMAGES ? window.EMBEDDED_EXERCISE_IMAGES[title] : null;
+            modalImage.src = base64Img || imgUrl || guide.image;
 
             imageModal.classList.remove('hidden');
             void imageModal.offsetWidth;
             imageModal.classList.replace('opacity-0', 'opacity-100');
             imageWindow.classList.replace('scale-95', 'scale-100');
+        }
+
+        // ---- Settings Modal Logic ----
+        const settingsModal = document.getElementById('settings-modal');
+        const settingsWindow = document.getElementById('settings-window');
+
+        function openSettingsModal() {
+            settingsModal.classList.remove('hidden');
+            void settingsModal.offsetWidth;
+            settingsModal.classList.replace('opacity-0', 'opacity-100');
+            settingsWindow.classList.replace('scale-95', 'scale-100');
+        }
+
+        function closeSettingsModal() {
+            settingsModal.classList.replace('opacity-100', 'opacity-0');
+            settingsWindow.classList.replace('scale-100', 'scale-95');
+            setTimeout(() => { settingsModal.classList.add('hidden'); }, 300);
+        }
+
+        function saveSettings() {
+            const name = document.getElementById('setting-patient-name').value.trim() || 'David Miller';
+            const fontSize = document.getElementById('setting-font-size').value;
+            
+            localStorage.setItem('strokeCarePatientName', name);
+            localStorage.setItem('strokeCareFontSize', fontSize);
+
+            applyUserSettings();
+            closeSettingsModal();
+        }
+
+        function applyUserSettings() {
+            const savedName = localStorage.getItem('strokeCarePatientName') || 'David Miller';
+            const savedFontSize = localStorage.getItem('strokeCareFontSize') || 'normal';
+
+            const patientNameEl = document.getElementById('header-patient-name');
+            const avatarImg = document.getElementById('user-avatar-img');
+            
+            if(patientNameEl) patientNameEl.innerText = savedName;
+            if(avatarImg) avatarImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(savedName)}&background=dbeafe&color=0056b3`;
+
+            if(savedFontSize === 'large') {
+                document.documentElement.style.fontSize = '18px';
+            } else {
+                document.documentElement.style.fontSize = '16px';
+            }
+        }
+
+        // ---- Login / Auth Logic ----
+        const loginModal = document.getElementById('login-modal');
+        const loginWindow = document.getElementById('login-window');
+        let isLoggedIn = localStorage.getItem('strokeCareIsLoggedIn') !== 'false';
+
+        function openLoginModal() {
+            loginModal.classList.remove('hidden');
+            void loginModal.offsetWidth;
+            loginModal.classList.replace('opacity-0', 'opacity-100');
+            loginWindow.classList.replace('scale-95', 'scale-100');
+        }
+
+        function closeLoginModal() {
+            loginModal.classList.replace('opacity-100', 'opacity-0');
+            loginWindow.classList.replace('scale-100', 'scale-95');
+            setTimeout(() => { loginModal.classList.add('hidden'); }, 300);
+        }
+
+        function performLogin() {
+            const email = document.getElementById('login-email').value || 'David Miller';
+            const name = email.split('@')[0].replace('.', ' ');
+            const capitalized = name.charAt(0).toUpperCase() + name.slice(1);
+            
+            localStorage.setItem('strokeCarePatientName', capitalized);
+            localStorage.setItem('strokeCareIsLoggedIn', 'true');
+            isLoggedIn = true;
+            
+            updateAuthUI();
+            applyUserSettings();
+            closeLoginModal();
+        }
+
+        function quickDemoLogin(userName) {
+            localStorage.setItem('strokeCarePatientName', userName);
+            localStorage.setItem('strokeCareIsLoggedIn', 'true');
+            isLoggedIn = true;
+            
+            updateAuthUI();
+            applyUserSettings();
+            closeLoginModal();
+        }
+
+        function toggleAuth() {
+            if(isLoggedIn) {
+                // Perform Logout
+                isLoggedIn = false;
+                localStorage.setItem('strokeCareIsLoggedIn', 'false');
+                updateAuthUI();
+                openLoginModal();
+            } else {
+                openLoginModal();
+            }
+        }
+
+        function updateAuthUI() {
+            const authBtnText = document.getElementById('auth-btn-text');
+            const authIcon = document.getElementById('auth-icon');
+            const headerStatus = document.getElementById('header-user-status');
+            
+            if(isLoggedIn) {
+                if(authBtnText) authBtnText.innerText = 'Logout';
+                if(authIcon) authIcon.innerText = 'logout';
+                if(headerStatus) headerStatus.style.opacity = '1';
+            } else {
+                if(authBtnText) authBtnText.innerText = 'Login';
+                if(authIcon) authIcon.innerText = 'login';
+                if(headerStatus) headerStatus.style.opacity = '0.5';
+            }
         }
 
         function showFallbackSVG() {
@@ -805,6 +1020,8 @@
         let isMedTaken = localStorage.getItem('strokeCareMedTaken') === 'true';
 
         window.onload = async () => {
+            applyUserSettings();
+            updateAuthUI();
             if (isMedTaken) updateMedUI();
             
             if (useLocalStorage) {
