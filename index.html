@@ -11,8 +11,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <!-- FontAwesome for fallback/extra icons if needed -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Embedded Exercise Base64 Images -->
+    <!-- Embedded Exercise Base64 Images & Gemini AI Pictures -->
     <script src="assets/images_base64.js"></script>
+    <script src="assets/gemini_images.js"></script>
     
     <script id="tailwind-config">
         tailwind.config = {
@@ -814,18 +815,15 @@
 
             modalInstructions.innerHTML = guide.instructions.map(step => `<li>${step}</li>`).join('');
 
-            const base64Img = window.EMBEDDED_EXERCISE_IMAGES ? window.EMBEDDED_EXERCISE_IMAGES[title] : null;
-            const imgSrc = base64Img || imgUrl || guide.image;
+            // Priority: 1. Gemini AI Base64 JPG, 2. Embedded Base64, 3. File URL, 4. Guide image
+            const geminiImg = (window.GEMINI_EXERCISE_IMAGES && window.GEMINI_EXERCISE_IMAGES[title]);
+            const base64Img = (window.EMBEDDED_EXERCISE_IMAGES && window.EMBEDDED_EXERCISE_IMAGES[title]);
+            const finalImgSrc = geminiImg || base64Img || imgUrl || guide.image;
 
-            if (guide.svg) {
-                modalImage.classList.add('hidden');
-                modalSvgFallback.classList.remove('hidden');
-                modalSvgFallback.innerHTML = guide.svg;
-            } else {
-                modalSvgFallback.classList.add('hidden');
-                modalImage.classList.remove('hidden');
-                modalImage.src = imgSrc;
-            }
+            // Show real Gemini AI picture as primary
+            modalSvgFallback.classList.add('hidden');
+            modalImage.classList.remove('hidden');
+            modalImage.src = finalImgSrc;
 
             imageModal.classList.remove('hidden');
             void imageModal.offsetWidth;
