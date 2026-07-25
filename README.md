@@ -32,8 +32,7 @@ Every year, over 12 million people worldwide suffer a stroke. Recovery requires 
 - **Streak & Motivation Tracker:** Tracks active recovery days and daily achievements.
 - **Dynamic Progress Ring:** Real-time visual progress ring showing daily medication and exercise completion.
 - **Medical Safety Disclaimer Banner:** Prominently featured on top of the dashboard to ensure patients understand the app is a supportive tool and not a doctor replacement.
-
-### 2. 🗣️ Aphasia Visual Speech Assistant (AAC & Text-to-Speech)
+- 
 - **8 Visual Communication Cards:** Large, color-coded, high-contrast cards representing core daily needs:
   - 💧 **Water:** *"I need a glass of water, please."*
   - ⚠️ **Pain:** *"I am in pain. Please help me."*
