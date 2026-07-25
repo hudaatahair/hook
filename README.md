@@ -1,11 +1,6 @@
 # 🧠 Stroke Companion AI — Healthcare & Rehabilitation Platform
 
-> **A specialized, accessible digital health platform designed to empower stroke survivors through home rehabilitation, speech assistance, medication tracking, and empathetic AI guidance.**
->
-> **LIVE App**
-stroke-companion.vercel.app
-
----
+> **A specialized, accessible digital health platform designed to empower stroke survivors through home rehabilitation, speech assistance, medication tracking, and empathetic AI guidance.stroke-companion.vercel.app
 
 ## 📌 Project Overview & Problem Statement
 
