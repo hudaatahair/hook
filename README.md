@@ -1,6 +1,13 @@
 # 🧠 Stroke Companion AI — Healthcare & Rehabilitation Platform
 
-> **A specialized, accessible digital health platform designed to empower stroke survivors through home rehabilitation, speech assistance, medication tracking, and empathetic AI guidance.stroke-companion.vercel.app
+> **A specialized, accessible digital health platform designed to empower stroke survivors through home rehabilitation, speech assistance, medication tracking, and empathetic AI guidance.**
+
+---
+
+## 📍 Live app on Vercel:
+stroke-companion.vercel.app
+
+---
 
 ## 📌 Project Overview & Problem Statement
 
@@ -24,7 +31,8 @@ Every year, over 12 million people worldwide suffer a stroke. Recovery requires 
 - **Streak & Motivation Tracker:** Tracks active recovery days and daily achievements.
 - **Dynamic Progress Ring:** Real-time visual progress ring showing daily medication and exercise completion.
 - **Medical Safety Disclaimer Banner:** Prominently featured on top of the dashboard to ensure patients understand the app is a supportive tool and not a doctor replacement.
-- 
+
+### 2. 🗣️ Aphasia Visual Speech Assistant (AAC & Text-to-Speech)
 - **8 Visual Communication Cards:** Large, color-coded, high-contrast cards representing core daily needs:
   - 💧 **Water:** *"I need a glass of water, please."*
   - ⚠️ **Pain:** *"I am in pain. Please help me."*
@@ -121,28 +129,20 @@ The **Recovery Assistant** is a contextual conversational AI embedded in a float
 
 ## 🖼️ Screenshots of the App in Action
 
-### 1. 🏋️ Exercise Guide & Gemini AI Medical Illustration
-![Shoulder Stretch Exercise Guide](assets/images/shoulder_stretch.jpg)
-*Figure 1: Full-color Gemini AI medical illustration showing the Shoulder Stretch routine with step-by-step instructions.*
+### 1. 🏋️ HomeScreen:
+![alt text](<Screenshot 2026-07-26 134246.png>)
 
-### 2. ✋ Hand & Finger Grip Dexterity Practice
-![Finger Grip Practice Guide](assets/images/finger_grip.jpg)
-*Figure 2: Finger Grip Practice exercise guide for fine motor skill recovery.*
+Excersise tab:
+---![alt text](<Screenshot 2026-07-26 134305.png>)
+![alt text](<Screenshot 2026-07-26 134329.png>)
 
-### 3. 🔄 Wrist Rotation Joint Mobility Guide
-![Wrist Rotation Exercise Guide](assets/images/wrist_rotation.jpg)
-*Figure 3: Controlled 360° Wrist Rotation exercise illustration for joint range of motion.*
+Speech Assistant :
+![alt text](<Screenshot 2026-07-26 134354.png>)
+![alt text](<Screenshot 2026-07-26 135036.png>)
 
-### 4. 🦵 Seated Ankle Pumps & Circulation Guide
-![Seated Ankle Pumps Guide](assets/images/ankle_pumps.jpg)
-*Figure 4: Seated Ankle Pumps guide for lower leg circulation and DVT prevention.*
-
-### 5. 🦵 Seated Knee Extension Strengthening Guide
-![Knee Extension Guide](assets/images/knee_extension.jpg)
-*Figure 5: Seated Knee Extension guide for quad strengthening.*
-
----
-
+AI Assistant : 
+![alt text](<Screenshot 2026-07-26 135036-1.png>)
+![alt text](<Screenshot 2026-07-26 134216.png>)
 ## 🚀 How to Run the Project
 
 ### Option A: Run Locally (Simplest)
@@ -150,16 +150,8 @@ The **Recovery Assistant** is a contextual conversational AI embedded in a float
 2. Open the project folder (`stroke care`).
 3. Double-click **`index.html`** to run the app instantly in your default web browser (Chrome, Edge, Firefox, Safari).
 
-### Option B: Serve via Local Web Server
-If you prefer running a local server using Node.js:
-```bash
-# Navigate to the project directory
-cd "stroke care"
-
-# Serve the static files using npx serve
-npx serve .
-```
-Then open `http://localhost:3000` in your browser.
+### Option B: Serve via Public App Link
+stroke-companion.vercel.app
 
 ---
 
