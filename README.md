@@ -143,6 +143,7 @@ Speech Assistant :
 AI Assistant : 
 ![alt text](<Screenshot 2026-07-26 135036-1.png>)
 ![alt text](<Screenshot 2026-07-26 134216.png>)
+
 ## 🚀 How to Run the Project
 
 ### Option A: Run Locally (Simplest)
