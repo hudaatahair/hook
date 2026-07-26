@@ -5,7 +5,7 @@
 ---
 
 ## 📍 Live app on Vercel:
-stroke-companion.vercel.app
+https://stroke-companion.vercel.app
 
 ---
 
